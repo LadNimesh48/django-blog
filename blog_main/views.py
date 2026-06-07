@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from blogs.models import Category, Blog
+from assignments.models import About, SocialLink
 
 def home(request):
 
@@ -12,9 +13,19 @@ def home(request):
 
     posts = Blog.objects.filter(is_featured=False, status='Published')
 
+    # About from DB
+    try:
+        about = About.objects.get()
+    except:
+        about = None
+
+
+
+
     context = {
         # 'categories'        : categories,
         'featured_posts'    : featured_posts,
-        'posts'             : posts
+        'posts'             : posts,
+        'about'             : about,
     }
     return render(request, 'home.html', context)
