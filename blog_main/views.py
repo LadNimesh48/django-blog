@@ -55,6 +55,7 @@ def login(request):
     if request.method == 'POST':
 
         loginForm = AuthenticationForm(request, request.POST)
+        
         if loginForm.is_valid():
             username = loginForm.cleaned_data['username']
             password = loginForm.cleaned_data['password']

@@ -4,19 +4,15 @@
 
 <div class="row">
     <!-- Left Sidebar -->
-    <div class="col-md-3">
-        <div class="nav flex-column nav-pills bg-light" aria-orientation="vertical">
-            <a href="" class="nav-link text-dark bg-warning">Dashboard</a>
-            <a href="" class="nav-link text-dark">Categories</a>
-            <a href="" class="nav-link text-dark">Posts</a>
-            <a href="" class="nav-link text-dark">Logout</a>
+   
+    <!-- Load Sidebar from dashboard_sidebar -->
+     {% include 'dashboards/dashboard_sidebar.html' %}
 
-        </div>
 
-    </div>
 
     <!-- Right Side Content -->
     <div class="col-md-9">
+        <span> Logged in as <b>{{ user }}</b></span>
         <div class="row">
             <div class="col">
                 <div class="card border-default mb-3">
