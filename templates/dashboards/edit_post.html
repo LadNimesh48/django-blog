@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="row">
+    <!-- Left Sidebar -->
+   
+    <!-- Load Sidebar from dashboard_sidebar -->
+     {% include 'dashboards/dashboard_sidebar.html' %}
+
+
+
+    <!-- Right Side Content -->
+    <div class="col-md-9">
+        <h2>Edit Blog Post</h2>
+        
+        <form action="{% url 'edit_post' post.id%}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ blog_post_EditForm | crispy }}
+
+            <button type="submit" class="btn btn-warning">Submit</button>
+        </form>
+       
+    </div>
+</div>
+
+
+{% endblock content %}
