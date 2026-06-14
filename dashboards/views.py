@@ -3,11 +3,13 @@ from django.utils.text import slugify
 from django.shortcuts import get_object_or_404, redirect, render
 
 from blogs.models import Blog, Category
+from django.contrib.auth.models import User
 
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .forms import BlogPostForm, CategoryForm
+from .forms import BlogPostForm, CategoryForm, UserForm, EditUserForm
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -141,3 +143,59 @@ def delete_post(request, pk):
 
     post.delete()
     return redirect('posts')
+
+def users(request):
+
+    users = User.objects.all()
+
+    context = {
+        'users' : users
+    }
+
+    return render(request, 'dashboards/users.html', context)
+
+def add_user(request):
+
+    if request.method == 'POST':
+
+        add_user_form = UserForm(request.POST)
+        if add_user_form.is_valid():
+            add_user_form.save()
+            return redirect('users')
+
+    else:
+        add_user_form = UserForm()
+
+    context = {
+        'add_user_form' : add_user_form
+    }
+
+    return render(request, 'dashboards/add_user.html', context)
+
+def edit_user(request, pk):
+
+    getUser = get_object_or_404(User, pk=pk)
+
+    if request.method == 'POST':
+
+        edit_user_form = EditUserForm(request.POST, instance=getUser)
+        if edit_user_form.is_valid():
+            edit_user_form.save()
+            return redirect('users')
+    else:
+        edit_user_form = EditUserForm(instance=getUser)
+    
+    context = {
+        'edit_user_form' : edit_user_form,
+        'getUser' : getUser
+    }
+
+    return render(request, 'dashboards/edit_user.html', context)
+
+
+def delete_user(request, pk):
+    getUser = get_object_or_404(User, pk=pk)
+
+    getUser.delete()
+    return redirect('users')
+

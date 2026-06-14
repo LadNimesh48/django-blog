@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="row">
+    <!-- Left Sidebar -->
+   
+    <!-- Load Sidebar from dashboard_sidebar -->
+     {% include 'dashboards/dashboard_sidebar.html' %}
+
+
+
+    <!-- Right Side Content -->
+    <div class="col-md-9">
+        {% if perms.auth.edit_user  %}
+        <h2>Edit User</h2>
+        <form action="{% url 'edit_user' getUser.id%}" method="post">
+            {% csrf_token %}
+
+            {{ edit_user_form | crispy }}
+
+            <button type="submit" class="btn btn-warning">Submit</button>
+        </form>
+        {% else %}
+        <div class="text-center mt-5">
+            <h2>Access Denied</h2>
+            <p class="text-muted">
+                You do not have permission to access this page.
+                Please contact your administrator.
+            </p>
+            <a href="{% url 'dashboard' %}" class="btn btn-primary">Return to Home</a>
+        </div>
+        <br>
+        {% endif %}
+       
+    </div>
+</div>
+
+
+{% endblock content %}
